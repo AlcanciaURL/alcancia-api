@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { User as UserModel } from '@prisma/client';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Prisma, User as UserModel } from '@prisma/client';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -16,5 +16,15 @@ export class UserController {
     @Body() userData: { name?: string; email: string },
   ): Promise<UserModel> {
     return this.userService.createUser(userData);
+  }
+
+  @Put(':id')
+  updateUser(@Param('id') id: number, @Body() data: Prisma.UserUpdateInput) {
+    return this.userService.update(+id, data);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: number){
+    return this.userService.remove(+id);
   }
 }
