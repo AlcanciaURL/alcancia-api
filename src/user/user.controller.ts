@@ -16,7 +16,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('/')
   async getAllUsers(): Promise<User[]> {
     return this.userService.getAll({});
   }
@@ -28,7 +28,7 @@ export class UserController {
     });
   }
 
-  @Post()
+  @Post('/')
   async signupUser(@Body() userData: UserDTO): Promise<User> {
     return this.userService.create(userData);
   }

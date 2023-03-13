@@ -8,7 +8,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-  relationMode = "prisma"
+  //relationMode = "prisma"
 }
 
 model User {
@@ -16,26 +16,14 @@ model User {
   first_name String
   last_name  String
   email      String  @unique
-  userworkspace UserWorkspace[]
-}
-
-model UserWorkspace{
-  idUserWorkspace Int @id  @default(autoincrement())
-  user User @relation(fields: [user_id], references: [idUser],  onDelete: Cascade)
-  user_id String
-  workspace  Workspace @relation(fields: [workspace_id], references: [idWorkspace],  onDelete: Cascade)
-  workspace_id Int
-
-   
-  @@index([workspace_id])
-  @@index([user_id])
+  workspace Workspace[]
 }
 
 model Workspace {
   idWorkspace Int @id @default(autoincrement())
   name String
   current_amount Float @default(0)
-  userworkspace UserWorkspace[]
+  user User[]
 }
 
 
