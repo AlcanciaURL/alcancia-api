@@ -8,19 +8,34 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
-  id         String     @id
+  idUser         String     @id
   first_name String
   last_name  String
   email      String  @unique
-  workspace UserWorkspace[]
+  userworkspace UserWorkspace[]
+}
+
+model UserWorkspace{
+  idUserWorkspace Int @id  @default(autoincrement())
+  user User @relation(fields: [user_id], references: [idUser],  onDelete: Cascade)
+  user_id String
+  workspace  Workspace @relation(fields: [workspace_id], references: [idWorkspace],  onDelete: Cascade)
+  workspace_id Int
+
+   
+  @@index([workspace_id])
+  @@index([user_id])
 }
 
 model Workspace {
-  id Int @id @default(autoincrement())
+  idWorkspace Int @id @default(autoincrement())
   name String
   current_amount Float @default(0)
-  user UserWorkspace[]
+  userworkspace UserWorkspace[]
 }
+
+
