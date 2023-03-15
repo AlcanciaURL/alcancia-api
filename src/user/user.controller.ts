@@ -22,9 +22,9 @@ export class UserController {
   }
 
   @Get(':id')
-  async getOneUser(@Param('id') id: User['idUser']): Promise<User> {
+  async getOneUser(@Param('id') idUser: User['idUser']): Promise<User> {
     return this.userService.getOne({
-      id,
+      idUser,
     });
   }
 
@@ -34,19 +34,17 @@ export class UserController {
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: User['idUser'], @Body() data: UserUpdateDTO) {
+  updateUser(@Param('id') idUser: User['idUser'], @Body() data: UserUpdateDTO) {
     return this.userService.update(
       {
-        id,
+        idUser,
       },
       data,
     );
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: User['idUser']) {
-    return this.userService.delete({
-      id,
-    });
+  deleteUser(@Param('id') idUser: User['idUser']) {
+    return this.userService.delete({ idUser });
   }
 }

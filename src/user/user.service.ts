@@ -40,7 +40,7 @@ export class UserService {
     where: Prisma.UserWhereUniqueInput,
     data: Prisma.UserUpdateInput,
   ) {
-    return this.prisma.user.update({ where, data });
+    return this.prisma.user.update({ data, where });
   }
 
   async delete(where: Prisma.UserWhereUniqueInput) {

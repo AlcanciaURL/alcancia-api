@@ -20,9 +20,11 @@ export class WorkspaceController {
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: Workspace['idWorkspace']): Promise<Workspace> {
+  async getOne(
+    @Param('id') idWorkspace: Workspace['idWorkspace'],
+  ): Promise<Workspace> {
     return this.workspaceService.getOne({
-      id,
+      idWorkspace,
     });
   }
 
@@ -32,19 +34,20 @@ export class WorkspaceController {
   }
 
   @Put(':id')
-  update(@Param('id') id: Workspace['idWorkspace'], @Body() data: Workspace) {
+  update(
+    @Param('id') idWorkspace: Workspace['idWorkspace'],
+    @Body() data: Workspace,
+  ) {
     return this.workspaceService.update(
       {
-        id,
+        idWorkspace,
       },
       data,
     );
   }
 
   @Delete(':id')
-  delete(@Param('id') id: Workspace['idWorkspace']) {
-    return this.workspaceService.delete({
-      id,
-    });
+  delete(@Param('id') idWorkspace: Workspace['idWorkspace']) {
+    return this.workspaceService.delete({ idWorkspace });
   }
 }
