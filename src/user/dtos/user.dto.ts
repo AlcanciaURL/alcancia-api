@@ -2,7 +2,7 @@ import { IsString, MinLength } from 'class-validator';
 
 export class UserDTO {
   @IsString()
-  id: string;
+  idUser: string;
 
   @IsString()
   @MinLength(3)
