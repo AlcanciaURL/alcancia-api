@@ -6,35 +6,84 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  idUser     String     @id
-  first_name String
-  last_name  String
-  email      String  @unique
+  idUser        String          @id
+  first_name    String
+  last_name     String
+  email         String          @unique
   userworkspace UserWorkspace[]
+  Invitation    Invitation[]
 }
 
 model UserWorkspace {
-  idUserWorkspace Int @id @default(autoincrement())
-  user User @relation(fields: [user_id], references: [idUser], onDelete: Cascade)
-  user_id String
-  workspace Workspace @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
-  workspace_id Int
+  idUserWorkspace Int       @id @default(autoincrement())
+  user            User      @relation(fields: [user_id], references: [idUser], onDelete: Cascade)
+  user_id         String
+  workspace       Workspace @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
+  workspace_id    Int
 
   @@index([workspace_id])
   @@index([user_id])
 }
 
 model Workspace {
-  idWorkspace Int @id @default(autoincrement())
-  name String
-  current_amount Float @default(0)
-  userworkspace UserWorkspace[]
+  idWorkspace       Int             @id @default(autoincrement())
+  name              String
+  current_amount    Float           @default(0)
+  userworkspace     UserWorkspace[]
+  categoryworkspace Category[]
+  Transaction       Transaction[]
+  Objetive          Objetive[]
+  Invitation        Invitation[]
 }
 
+model Category {
+  idCategory   Int           @id @default(autoincrement())
+  name         String
+  workspace    Workspace     @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
+  workspace_id Int
+  Transaction  Transaction[]
 
+  @@index([workspace_id])
+}
+
+model Transaction {
+  idTransaction Int       @id @default(autoincrement())
+  description   String
+  amount        Float
+  category      Category  @relation(fields: [category_id], references: [idCategory], onDelete: Cascade)
+  category_id   Int
+  workspace     Workspace @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
+  workspace_id  Int
+
+  @@index([category_id])
+  @@index([workspace_id])
+}
+
+model Objetive {
+  idObjetive   Int       @id @default(autoincrement())
+  description  String
+  amount       Float
+  init_date    DateTime
+  end_date     DateTime
+  workspace    Workspace @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
+  workspace_id Int
+
+  @@index([workspace_id])
+}
+
+model Invitation {
+  idInvitation Int       @id @default(autoincrement())
+  user         User      @relation(fields: [user_id], references: [idUser], onDelete: Cascade)
+  user_id      String
+  workspace    Workspace @relation(fields: [workspace_id], references: [idWorkspace], onDelete: Cascade)
+  workspace_id Int
+
+  @@index([user_id])
+  @@index([workspace_id])
+}
