@@ -16,37 +16,35 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('/')
   async getAllUsers(): Promise<User[]> {
     return this.userService.getAll({});
   }
 
   @Get(':id')
-  async getOneUser(@Param('id') id: User['id']): Promise<User> {
+  async getOneUser(@Param('id') idUser: User['idUser']): Promise<User> {
     return this.userService.getOne({
-      id,
+      idUser,
     });
   }
 
-  @Post()
+  @Post('/')
   async signupUser(@Body() userData: UserDTO): Promise<User> {
     return this.userService.create(userData);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: User['id'], @Body() data: UserUpdateDTO) {
+  updateUser(@Param('id') idUser: User['idUser'], @Body() data: UserUpdateDTO) {
     return this.userService.update(
       {
-        id,
+        idUser,
       },
       data,
     );
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: User['id']) {
-    return this.userService.delete({
-      id,
-    });
+  deleteUser(@Param('id') idUser: User['idUser']) {
+    return this.userService.delete({ idUser });
   }
 }
