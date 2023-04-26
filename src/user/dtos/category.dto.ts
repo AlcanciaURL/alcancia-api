@@ -5,5 +5,5 @@ export class CategoryDTO {
   name: string;
 
   @IsInt()
-  workspace_id: number;
+  workspaceId: number;
 }

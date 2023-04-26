@@ -2,6 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, Transaction } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
+type CreateTransaction = {
+  description: string;
+  amount: number;
+  userId: string;
+  categoryId: number;
+  workspaceId: number;
+};
+
 @Injectable()
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
@@ -32,9 +40,15 @@ export class TransactionService {
     });
   }
 
-  async create(data: Prisma.TransactionCreateInput): Promise<Transaction> {
+  async create(data: CreateTransaction): Promise<Transaction> {
     return this.prisma.transaction.create({
-      data,
+      data: {
+        amount: data.amount,
+        description: data.description,
+        categoryId: data.categoryId,
+        userId: data.userId,
+        workspaceId: data.workspaceId,
+      },
     });
   }
 

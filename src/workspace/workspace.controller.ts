@@ -10,6 +10,10 @@ import {
 import { Workspace } from '@prisma/client';
 import { WorkspaceService } from './workspace.service';
 
+type CreateWorkspace = {
+  userId: string;
+};
+
 @Controller('workspace')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
@@ -20,34 +24,29 @@ export class WorkspaceController {
   }
 
   @Get(':id')
-  async getOne(
-    @Param('id') idWorkspace: Workspace['idWorkspace'],
-  ): Promise<Workspace> {
+  async getOne(@Param('id') id: string): Promise<Workspace> {
     return this.workspaceService.getOne({
-      idWorkspace,
+      id: parseInt(id),
     });
   }
 
   @Post('/')
-  async create(@Body() work: Workspace): Promise<Workspace> {
-    return this.workspaceService.create(work);
+  async create(@Body() work: CreateWorkspace): Promise<Workspace> {
+    return this.workspaceService.create(work.userId);
   }
 
   @Put(':id')
-  update(
-    @Param('id') idWorkspace: Workspace['idWorkspace'],
-    @Body() data: Workspace,
-  ) {
+  update(@Param('id') id: string, @Body() data: Workspace) {
     return this.workspaceService.update(
       {
-        idWorkspace,
+        id: parseInt(id),
       },
       data,
     );
   }
 
   @Delete(':id')
-  delete(@Param('id') idWorkspace: Workspace['idWorkspace']) {
-    return this.workspaceService.delete({ idWorkspace });
+  delete(@Param('id') id: Workspace['id']) {
+    return this.workspaceService.delete({ id });
   }
 }

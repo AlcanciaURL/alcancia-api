@@ -10,6 +10,11 @@ import {
 import { CategoryService } from './category.service';
 import { Category, Prisma } from '@prisma/client';
 
+type CreateCategory = {
+  workspaceId: number;
+  name: string;
+};
+
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -20,36 +25,34 @@ export class CategoryController {
   }
 
   @Get(':id')
-  async getOneUser(
-    @Param('id') idCategory: Category['idCategory'],
-  ): Promise<Category> {
+  async getOneUser(@Param('id') id: Category['id']): Promise<Category> {
     return this.categoryService.getOne({
-      idCategory,
+      id,
     });
   }
 
   @Post('/')
   async createCategory(
-    @Body() categoryData: Prisma.CategoryCreateInput,
+    @Body() categoryData: CreateCategory,
   ): Promise<Category> {
     return this.categoryService.create(categoryData);
   }
 
   @Put(':id')
   updateUser(
-    @Param('id') idCategory: Category['idCategory'],
+    @Param('id') id: Category['id'],
     @Body() data: Prisma.CategoryUpdateInput,
   ) {
     return this.categoryService.update(
       {
-        idCategory,
+        id,
       },
       data,
     );
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') idCategory: Category['idCategory']) {
-    return this.categoryService.delete({ idCategory });
+  deleteUser(@Param('id') id: Category['id']) {
+    return this.categoryService.delete({ id });
   }
 }

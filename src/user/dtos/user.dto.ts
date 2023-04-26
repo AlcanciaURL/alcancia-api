@@ -2,15 +2,15 @@ import { IsString, MinLength } from 'class-validator';
 
 export class UserDTO {
   @IsString()
-  idUser: string;
+  id: string;
 
   @IsString()
   @MinLength(3)
-  first_name: string;
+  firstName: string;
 
   @IsString()
   @MinLength(2)
-  last_name: string;
+  lastName: string;
 
   @IsString()
   @MinLength(11)

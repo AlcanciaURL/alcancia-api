@@ -20,11 +20,9 @@ export class ObjetiveController {
   }
 
   @Get(':id')
-  async getOne(
-    @Param('id') idObjetive: Objetive['idObjetive'],
-  ): Promise<Objetive> {
+  async getOne(@Param('id') id: Objetive['id']): Promise<Objetive> {
     return this.objetiveService.getOne({
-      idObjetive,
+      id,
     });
   }
 
@@ -34,20 +32,17 @@ export class ObjetiveController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') idObjetive: Objetive['idObjetive'],
-    @Body() data: Objetive,
-  ) {
+  update(@Param('id') id: Objetive['id'], @Body() data: Objetive) {
     return this.objetiveService.update(
       {
-        idObjetive,
+        id,
       },
       data,
     );
   }
 
   @Delete(':id')
-  delete(@Param('id') idObjetive: Objetive['idObjetive']) {
-    return this.objetiveService.delete({ idObjetive });
+  delete(@Param('id') id: Objetive['id']) {
+    return this.objetiveService.delete({ id });
   }
 }

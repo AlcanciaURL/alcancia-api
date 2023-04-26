@@ -32,9 +32,9 @@ export class UserController {
     description: 'En este endpoint encontrara a un usuario buscado por ID',
   })
   @Get(':id')
-  async getOneUser(@Param('id') idUser: User['idUser']): Promise<User> {
+  async getOneUser(@Param('id') id: User['id']): Promise<User> {
     return this.userService.getOne({
-      idUser,
+      id,
     });
   }
 
@@ -52,10 +52,10 @@ export class UserController {
     description: 'En este endpoint se podra modificar un usuario',
   })
   @Put(':id')
-  updateUser(@Param('id') idUser: User['idUser'], @Body() data: UserUpdateDTO) {
+  updateUser(@Param('id') id: User['id'], @Body() data: UserUpdateDTO) {
     return this.userService.update(
       {
-        idUser,
+        id,
       },
       data,
     );
@@ -66,7 +66,7 @@ export class UserController {
     description: 'En este endpoint se podra eliminar un usuario',
   })
   @Delete(':id')
-  deleteUser(@Param('id') idUser: User['idUser']) {
-    return this.userService.delete({ idUser });
+  deleteUser(@Param('id') id: User['id']) {
+    return this.userService.delete({ id });
   }
 }

@@ -10,6 +10,14 @@ import {
 import { TransactionService } from './transaction.service';
 import { Prisma, Transaction } from '@prisma/client';
 
+type CreateTransaction = {
+  description: string;
+  amount: number;
+  userId: string;
+  categoryId: number;
+  workspaceId: number;
+};
+
 @Controller('transaction')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
@@ -21,35 +29,35 @@ export class TransactionController {
 
   @Get(':id')
   async getTransaction(
-    @Param('id') idTransaction: Transaction['idTransaction'],
+    @Param('id') id: Transaction['id'],
   ): Promise<Transaction> {
     return this.transactionService.getOne({
-      idTransaction,
+      id,
     });
   }
 
   @Post('/')
   async createTransaction(
-    @Body() Data: Prisma.TransactionCreateInput,
+    @Body() data: CreateTransaction,
   ): Promise<Transaction> {
-    return this.transactionService.create(Data);
+    return this.transactionService.create(data);
   }
 
   @Put(':id')
   updateUser(
-    @Param('id') idTransaction: Transaction['idTransaction'],
+    @Param('id') id: Transaction['id'],
     @Body() data: Prisma.TransactionUpdateInput,
   ) {
     return this.transactionService.update(
       {
-        idTransaction,
+        id,
       },
       data,
     );
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') idTransaction: Transaction['idTransaction']) {
-    return this.transactionService.delete({ idTransaction });
+  deleteUser(@Param('id') id: Transaction['id']) {
+    return this.transactionService.delete({ id });
   }
 }

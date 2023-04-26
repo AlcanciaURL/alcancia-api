@@ -10,6 +10,15 @@ export class UserService {
     console.log(where);
     return this.prisma.user.findUnique({
       where,
+      include: {
+        userworkspace: {
+          include: {
+            workspace: true,
+          },
+        },
+        invitations: true,
+        invitationsSend: true,
+      },
     });
   }
 

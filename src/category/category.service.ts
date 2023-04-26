@@ -29,8 +29,10 @@ export class CategoryService {
     });
   }
 
-  async create(data: Prisma.CategoryCreateInput): Promise<Category> {
-    return this.prisma.category.create({ data });
+  async create(data: any): Promise<Category> {
+    return this.prisma.category.create({
+      data,
+    });
   }
 
   async update(

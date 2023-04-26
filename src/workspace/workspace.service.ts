@@ -13,11 +13,32 @@ export class WorkspaceService {
   async getOne(where: Prisma.WorkspaceWhereUniqueInput) {
     return this.prisma.workspace.findUnique({
       where,
+      include: {
+        categoryWorkspace: true,
+        invitation: true,
+        transaction: true,
+        objetive: true,
+        userWorkspace: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
   }
-  async create(data: Prisma.WorkspaceCreateInput) {
+
+  async create(userId: string) {
     return this.prisma.workspace.create({
-      data,
+      data: {
+        name: 'Nuevo espacio de trabajo',
+        userWorkspace: {
+          create: [
+            {
+              userId,
+            },
+          ],
+        },
+      },
     });
   }
 

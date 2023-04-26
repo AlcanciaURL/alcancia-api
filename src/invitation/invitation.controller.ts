@@ -20,11 +20,9 @@ export class InvitationController {
   }
 
   @Get(':id')
-  async getOne(
-    @Param('id') idInvitation: Invitation['idInvitation'],
-  ): Promise<Invitation> {
+  async getOne(@Param('id') id: Invitation['id']): Promise<Invitation> {
     return this.invitationService.getOne({
-      idInvitation,
+      id,
     });
   }
 
@@ -34,20 +32,17 @@ export class InvitationController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') idInvitation: Invitation['idInvitation'],
-    @Body() data: Invitation,
-  ) {
+  update(@Param('id') id: Invitation['id'], @Body() data: Invitation) {
     return this.invitationService.update(
       {
-        idInvitation,
+        id,
       },
       data,
     );
   }
 
   @Delete(':id')
-  delete(@Param('id') idInvitation: Invitation['idInvitation']) {
-    return this.invitationService.delete({ idInvitation });
+  delete(@Param('id') id: Invitation['id']) {
+    return this.invitationService.delete({ id });
   }
 }
