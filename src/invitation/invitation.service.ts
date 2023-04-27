@@ -2,6 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
+type CreateInvitation = {
+  invitedUserId: string;
+  userId: string;
+  workspaceId: number;
+};
+
 @Injectable()
 export class InvitationService {
   constructor(private prisma: PrismaService) {}
@@ -16,9 +22,13 @@ export class InvitationService {
     });
   }
 
-  async create(data: Prisma.InvitationCreateManyInput) {
+  async create(data: CreateInvitation) {
     return this.prisma.invitation.create({
-      data,
+      data: {
+        invitedUserId: data.invitedUserId,
+        userId: data.userId,
+        workspaceId: data.workspaceId,
+      },
     });
   }
 

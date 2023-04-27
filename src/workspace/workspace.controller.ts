@@ -45,6 +45,16 @@ export class WorkspaceController {
     );
   }
 
+  @Put('/users/:id')
+  updateUsers(@Param('id') id: string, @Body() data: { userId: string }) {
+    return this.workspaceService.updateUsers(
+      {
+        id: parseInt(id),
+      },
+      data.userId,
+    );
+  }
+
   @Delete(':id')
   delete(@Param('id') id: Workspace['id']) {
     return this.workspaceService.delete({ id });

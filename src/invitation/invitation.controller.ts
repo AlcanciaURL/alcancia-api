@@ -10,6 +10,12 @@ import {
 import { Invitation } from '@prisma/client';
 import { InvitationService } from './invitation.service';
 
+type CreateInvitation = {
+  invitedUserId: string;
+  userId: string;
+  workspaceId: number;
+};
+
 @Controller('invitation')
 export class InvitationController {
   constructor(private readonly invitationService: InvitationService) {}
@@ -20,29 +26,29 @@ export class InvitationController {
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: Invitation['id']): Promise<Invitation> {
+  async getOne(@Param('id') id: string): Promise<Invitation> {
     return this.invitationService.getOne({
-      id,
+      id: parseInt(id),
     });
   }
 
   @Post('/')
-  async create(@Body() invitation: Invitation): Promise<Invitation> {
+  async create(@Body() invitation: CreateInvitation): Promise<Invitation> {
     return this.invitationService.create(invitation);
   }
 
   @Put(':id')
-  update(@Param('id') id: Invitation['id'], @Body() data: Invitation) {
+  update(@Param('id') id: string, @Body() data: Invitation) {
     return this.invitationService.update(
       {
-        id,
+        id: parseInt(id),
       },
       data,
     );
   }
 
   @Delete(':id')
-  delete(@Param('id') id: Invitation['id']) {
-    return this.invitationService.delete({ id });
+  delete(@Param('id') id: string) {
+    return this.invitationService.delete({ id: parseInt(id) });
   }
 }

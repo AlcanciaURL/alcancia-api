@@ -16,7 +16,12 @@ export class WorkspaceService {
       include: {
         categoryWorkspace: true,
         invitation: true,
-        transaction: true,
+        transaction: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
         objetive: true,
         userWorkspace: {
           include: {
@@ -47,6 +52,19 @@ export class WorkspaceService {
     data: Prisma.WorkspaceUpdateInput,
   ) {
     return this.prisma.workspace.update({ where, data });
+  }
+
+  async updateUsers(where: Prisma.WorkspaceWhereUniqueInput, userId) {
+    return this.prisma.workspace.update({
+      where,
+      data: {
+        userWorkspace: {
+          create: {
+            userId: userId,
+          },
+        },
+      },
+    });
   }
 
   async delete(where: Prisma.WorkspaceWhereUniqueInput) {

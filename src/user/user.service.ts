@@ -13,10 +13,19 @@ export class UserService {
       include: {
         userworkspace: {
           include: {
+            workspace: {
+              include: {
+                transaction: true,
+              },
+            },
+          },
+        },
+        invitations: {
+          include: {
+            user: true,
             workspace: true,
           },
         },
-        invitations: true,
         invitationsSend: true,
       },
     });

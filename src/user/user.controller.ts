@@ -27,6 +27,13 @@ export class UserController {
     return this.userService.getAll({});
   }
 
+  @Post('/email')
+  async getEmail(@Body() data: { email: string }): Promise<User> {
+    return this.userService.getOne({
+      email: data.email,
+    });
+  }
+
   @ApiOperation({
     summary: 'Usuario por ID',
     description: 'En este endpoint encontrara a un usuario buscado por ID',
